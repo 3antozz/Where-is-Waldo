@@ -35,7 +35,7 @@ const positions = [
 function App() {
   const [coords, setCoords] = useState({X: 0, Y: 0})
   const [character, setCharacter] = useState(null)
-  const handleClick = (e) => {
+  const handleClick = async(e) => {
     setCharacter(null);
     const image = e.target.getBoundingClientRect();
     const x = e.clientX - image.x;
@@ -43,11 +43,19 @@ function App() {
     const xPercent = (x * 100) / image.width;
     const yPercent = (y * 100) / image.height;
     setCoords({X: xPercent, Y: yPercent})
-    for (const character of positions) {
-      if (xPercent >= character.x0 && xPercent <= character.x1 && yPercent <= character.y0 && yPercent >= character.y1) {
-        return setCharacter(character.name)
-      }
-    }
+    const request = await fetch('http://localhost:3000/check', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        character: 'wizard',
+        x: xPercent,
+        y: yPercent
+      })
+    })
+    const response = await request.json();
+    console.log(response);
 }
 
   return (
