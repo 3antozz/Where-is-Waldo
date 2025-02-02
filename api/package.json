@@ -1,0 +1,28 @@
+{
+  "name": "where-is-waldo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --watch app.js",
+    "build": "npm install && npx prisma generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-async-handler": "^1.2.0",
+    "express-validator": "^7.2.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.18.0",
+    "@prisma/client": "^6.3.0",
+    "eslint": "^9.18.0",
+    "globals": "^15.14.0",
+    "prisma": "^6.3.0"
+  }
+}
