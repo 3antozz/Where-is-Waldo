@@ -21,3 +21,10 @@ model Coordinates {
     y0    Decimal   @db.Decimal(19, 15)  
     y1    Decimal   @db.Decimal(19, 15)      
 }
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt   DateTime
+}

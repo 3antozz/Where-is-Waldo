@@ -1,0 +1,15 @@
+.spotted {
+    text-decoration: line-through;
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+}
+
+
+header > div {
+    display: flex;
+    align-items: center;
+}

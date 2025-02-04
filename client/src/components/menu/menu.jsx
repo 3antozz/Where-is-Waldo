@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { Context } from "../../context";
 
 export default function Menu () {
-    const { coords, menuPosition, setCharacter, setOpen } = useContext(Context);
+    const { coords, menuPosition, setCharacter, setOpen, characters, setCharacters } = useContext(Context);
     const handleClick = async(e) => {
         e.preventDefault();
         setOpen(false);
@@ -13,7 +13,7 @@ export default function Menu () {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            character: e.target.value,
+            character: e.target.value.toLowerCase(),
             x: coords.X,
             y: coords.Y
           })
@@ -21,19 +21,17 @@ export default function Menu () {
         const response = await request.json();
         console.log(response);
         if (response.response) {
-          return setCharacter(e.target.value)
+            setCharacters(characters.map(character => character.name === e.target.value ? {name: character.name, spotted: true} : character))
+            return setCharacter(e.target.value)
         } else {
-          return setCharacter('No one!')
+            return setCharacter('No one!')
         }
     }
     return (
         <>
             <form id="character" name="character" className={styles.menu} onChange={handleClick} size={4} style={{left: `${menuPosition.X}px`, top: `${menuPosition.Y}px` }}>
                 <legend hidden>Choose a character:</legend>
-                <label><input type="radio" name="option" value="waldo"/>Waldo</label>
-                <label><input type="radio" name="option" value="wenda"/>Wenda</label>
-                <label><input type="radio" name="option" value="wizard"/>Wizard</label>
-                <label><input type="radio" name="option" value="odlaw"/>Odlaw</label>
+                {characters.map((character) => !character.spotted ? <label key={character.name}><input type="radio" name="option" value={character.name}/>{character.name}</label> : null )}
             </form>
         </>
     )
