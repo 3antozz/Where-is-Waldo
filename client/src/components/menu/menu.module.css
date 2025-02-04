@@ -7,12 +7,13 @@
     width: 120px;
     height: 183px;
     text-align: center;
+    z-index: 999;
 }
 
-legend {
+.menu legend {
     padding: 0.5rem 1rem;
 }
-label {
+.menu label {
     display: block;
     padding: 0.5rem 1rem;
     border-bottom: 1px solid yellowgreen;
@@ -22,7 +23,7 @@ label {
     animation: 250ms linear popup;
 }
 
-label:hover {
+.menu label:hover {
     background-color: rgb(177, 215, 100);
     color: black;
 }

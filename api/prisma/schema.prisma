@@ -22,9 +22,15 @@ model Coordinates {
     y1    Decimal   @db.Decimal(19, 15)      
 }
 
+model Score {
+    id    Int       @id @default(autoincrement())
+    name  String    
+    time  Decimal   @db.Decimal(13, 8)     
+}
+
 model Session {
-  id        String   @id
-  sid       String   @unique
-  data      String
+  id          String   @id
+  sid         String   @unique
+  data        String
   expiresAt   DateTime
 }

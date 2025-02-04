@@ -7,25 +7,26 @@ const expressSession = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const prisma = require('./db/client')
 
-
+const allowedOrigins = ['http://localhost:5173']
 const app = express();
-// const corsOptions = {
-//     origin: (origin, callback) => {
-//       if (!origin || allowedOrigins.includes(origin)) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error('Not allowed by CORS'));
-//       }
-//     },
-//     optionsSuccessStatus: 200
-// };
-
-// app.use(cors(corsOptions));
-app.use(cors({
-    origin: 'http://localhost:5173',
+const corsOptions = {
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
     optionsSuccessStatus: 200
-}));
+};
+
+app.use(cors(corsOptions));
+// app.use(cors({
+//     origin: 'http://localhost:5173',
+//     credentials: true,
+//     optionsSuccessStatus: 200
+// }));
 // app.options('*', cors((corsOptions)))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json())
@@ -36,6 +37,9 @@ app.use(
       secret: 'idi nahui dolbayob',
       resave: true,
       saveUninitialized: true,
+      cookie: {
+        maxAge: null
+      },
       store: new PrismaSessionStore(
         prisma,
         {
@@ -49,17 +53,23 @@ app.use(
 
 app.get('/start', asyncHandler(async(req, res) => {
     req.session.startTime = Date.now();
-    console.log(req.session);
-    return res.json({response: true})
+    return res.json({
+        response: true,
+        startTime: req.session.startTime
+    })
 }))
 
-app.get('/finish', asyncHandler(async(req, res) => {
-    console.log(req.session);
+app.get('/finish', asyncHandler(async(req, res, next) => {
     if (!req.session.startTime) {
         return res.json({response: false})
     }
     const elapsedTime = Date.now() - req.session.startTime;
-    return res.json({time: elapsedTime/1000})
+    req.session.destroy(function(err) {
+        if (err) {
+            return next(err)
+        }
+        return res.json({time: elapsedTime/1000})
+    })
 }))
 
 app.post('/check', asyncHandler(async(req, res) => {

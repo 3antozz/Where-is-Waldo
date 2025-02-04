@@ -21,7 +21,7 @@ export default function Menu () {
         const response = await request.json();
         console.log(response);
         if (response.response) {
-            setCharacters(characters.map(character => character.name === e.target.value ? {name: character.name, spotted: true} : character))
+            setCharacters(characters.map(character => character.name === e.target.value ? {name: character.name, spotted: true, coords: {X: coords.X, Y: coords.Y}} : character))
             return setCharacter(e.target.value)
         } else {
             return setCharacter('No one!')
@@ -29,7 +29,7 @@ export default function Menu () {
     }
     return (
         <>
-            <form id="character" name="character" className={styles.menu} onChange={handleClick} size={4} style={{left: `${menuPosition.X}px`, top: `${menuPosition.Y}px` }}>
+            <form id="character" name="character" className={styles.menu} onChange={handleClick} style={{left: `${menuPosition.X}px`, top: `${menuPosition.Y}px` }}>
                 <legend hidden>Choose a character:</legend>
                 {characters.map((character) => !character.spotted ? <label key={character.name}><input type="radio" name="option" value={character.name}/>{character.name}</label> : null )}
             </form>

@@ -28,3 +28,15 @@ img {
   border-radius: 8px;
   text-align: center;
 }
+
+.img-container {
+  position: relative;
+}
+
+.found-icon {
+  position: absolute;
+  width: 3rem;
+  fill: rgb(3, 205, 3);
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+}
