@@ -22,9 +22,9 @@ img {
   align-items: center;
 }
 
-.modal {
+.modal, .scoreboard {
   background: white;
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: 8px;
   text-align: center;
 }
@@ -35,8 +35,85 @@ img {
 
 .found-icon {
   position: absolute;
-  width: 3rem;
+  width: 4vw;
   fill: rgb(3, 205, 3);
   background: rgba(0, 0, 0, 0.7);
   border-radius: 50%;
 }
+
+.scoreboard {
+  width: 18rem;
+}
+
+.player-score {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgb(133, 133, 133);
+  padding: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.player-score div p {
+  font-size: 1rem;
+}
+
+.scoreboard .info-row {
+  margin-bottom: 1.5rem;
+}
+
+.player-score h2:first-of-type {
+  flex: 1;
+  text-align: left;
+}
+
+.loading-icon {
+  animation: 800ms linear 0s infinite loading;
+}
+
+.feedback {
+  position: fixed;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  z-index: 99999;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.loading {
+  background-color: rgb(85, 85, 239);
+}
+
+.correct {
+  background-color: rgb(4, 176, 4);
+}
+
+.incorrect {
+  background-color: red;
+}
+
+.error {
+  display: flex;
+  gap: 0.5rem;
+  border-radius: 10px;
+  align-items: center;
+  background-color: red;
+}
+
+
+
+
+@keyframes loading {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+

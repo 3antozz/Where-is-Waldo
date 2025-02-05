@@ -4,7 +4,7 @@ import styles from "./timer.module.css"
 
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
-export default function Timer ({toggleTimer, startTime}) {
+export default function Timer ({toggleTimer, startTime, timeElapsed}) {
     const startTimeRef = useRef(startTime);
     const [time, setTime] = useState(0);
     const minutes = Math.floor((time / MINUTE) % 60);
@@ -15,7 +15,10 @@ export default function Timer ({toggleTimer, startTime}) {
             const interval = setInterval(() => setTime(Date.now() - startTimeRef.current), 1000)
             return () => clearInterval(interval)
         }
-    }, [toggleTimer, startTime])
+        if (timeElapsed) {
+            setTime(timeElapsed)
+        }
+    }, [toggleTimer, startTime, timeElapsed])
     return (
         <div style={{ fontFamily: "monospace" }}>
           {minutes.toString().padStart(2, "0")}:
@@ -26,5 +29,6 @@ export default function Timer ({toggleTimer, startTime}) {
 
 Timer.propTypes =  {
     toggleTimer: PropTypes.bool.isRequired,
-    startTime: PropTypes.number
+    startTime: PropTypes.number,
+    timeElapsed: PropTypes.number
 }

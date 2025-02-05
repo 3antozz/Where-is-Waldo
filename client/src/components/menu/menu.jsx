@@ -3,28 +3,46 @@ import { useContext } from "react";
 import { Context } from "../../context";
 
 export default function Menu () {
-    const { coords, menuPosition, setCharacter, setOpen, characters, setCharacters } = useContext(Context);
+    const { coords, menuPosition, setOpen, characters, setCharacters, clickResponse, setClickResponse, setCharacter } = useContext(Context);
     const handleClick = async(e) => {
+        setClickResponse('loading');
         e.preventDefault();
         setOpen(false);
-        const request = await fetch('http://localhost:3000/check', {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            character: e.target.value.toLowerCase(),
-            x: coords.X,
-            y: coords.Y
-          })
-        })
-        const response = await request.json();
-        console.log(response);
-        if (response.response) {
-            setCharacters(characters.map(character => character.name === e.target.value ? {name: character.name, spotted: true, coords: {X: coords.X, Y: coords.Y}} : character))
-            return setCharacter(e.target.value)
-        } else {
-            return setCharacter('No one!')
+        try {
+            const request = await fetch('http://localhost:3000/check', {
+                method: 'POST',
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  character: e.target.value.toLowerCase(),
+                  x: coords.X,
+                  y: coords.Y
+                })
+              })
+              const response = await request.json();
+              console.log(response);
+              setCharacter(e.target.value)
+              if (!request.ok) {
+                throw new Error('An error has occured, please try again later!')
+              }
+              if (response.response) {
+                  setCharacters(characters.map(character => character.name === e.target.value ? {name: character.name, spotted: true, coords: {X: coords.X, Y: coords.Y}} : character))
+                  setClickResponse('correct');
+              } else {
+                  setClickResponse('incorrect');
+              }
+              setTimeout(() => {
+                    setClickResponse(false)
+              }, 5000);
+        } catch(err) {
+            console.log(err);
+            setClickResponse(err.message)
+            setTimeout(() => {
+                if(clickResponse !== 'loading') {
+                    setClickResponse(false)
+                }
+            }, 3000);
         }
     }
     return (

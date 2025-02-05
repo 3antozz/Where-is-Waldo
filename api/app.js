@@ -6,6 +6,7 @@ const db = require('./db/queries');
 const expressSession = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const prisma = require('./db/client')
+const {body, validationResult} = require('express-validator')
 
 const allowedOrigins = ['http://localhost:5173']
 const app = express();
@@ -22,24 +23,18 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// app.use(cors({
-//     origin: 'http://localhost:5173',
-//     credentials: true,
-//     optionsSuccessStatus: 200
-// }));
 // app.options('*', cors((corsOptions)))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+const nameValidation = body("name").trim().notEmpty().withMessage("Name must not be empty").bail().matches(/^[a-zA-Z0-9_ ]+$/).withMessage("Name must only contain alphabet and numbers").isLength({min: 3, max: 20}).withMessage("Name must be between 3 and 20 characters");
+
 app.use(
     expressSession({
       secret: 'idi nahui dolbayob',
-      resave: true,
+      resave: false,
       saveUninitialized: true,
-      cookie: {
-        maxAge: null
-      },
       store: new PrismaSessionStore(
         prisma,
         {
@@ -53,23 +48,66 @@ app.use(
 
 app.get('/start', asyncHandler(async(req, res) => {
     req.session.startTime = Date.now();
-    return res.json({
+    setTimeout(() => res.json({
         response: true,
         startTime: req.session.startTime
-    })
+    }), 3000)
+    // return res.json({
+    //     response: true,
+    //     startTime: req.session.startTime
+    // })
 }))
 
-app.get('/finish', asyncHandler(async(req, res, next) => {
+app.get('/finish', asyncHandler(async(req, res) => {
     if (!req.session.startTime) {
-        return res.json({response: false})
+        const error = new Error("Game Didn't start")
+        error.code = 400;
+        throw error;
     }
     const elapsedTime = Date.now() - req.session.startTime;
-    req.session.destroy(function(err) {
-        if (err) {
-            return next(err)
-        }
-        return res.json({time: elapsedTime/1000})
-    })
+    req.session.time = elapsedTime;
+    setTimeout(() => res.json({time: elapsedTime}), 3000)
+    // return res.json({time: elapsedTime/1000})
+}))
+
+app.post('/score', nameValidation, async(req, res, next) => {
+    if (!req.session.startTime) {
+        const error = new Error("Game Didn't start")
+        error.code = 400;
+        return next(error);
+    }
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+        const errors = result.errors.map(err => err.msg);
+        errors.code = 400;
+        return next(errors)
+    }
+    const name = req.body.name
+    const elapsedTime = req.session.time;
+    console.log(elapsedTime);
+    try {
+        await db.addScore(name, elapsedTime)
+        req.session.destroy(function(err) {
+            if (err) {
+                return next(err)
+            }
+        })
+        setTimeout(() => res.json({response: true}), 3000)
+        // return res.send({response: true})
+    } catch(err) {
+        return next(err)
+    }
+})
+
+app.get('/scoreboard', asyncHandler(async(req, res, next) => {
+    try {
+        const results = await db.getTop10();
+        const bigIntToString = results.map((score) => ({...score, time: score.time.toString()}))
+        setTimeout(() => res.json({scoreboard: bigIntToString}), 3000)
+        // return res.json({scoreboard: bigIntToString})
+    } catch(err) {
+        return next(err);
+    }
 }))
 
 app.post('/check', asyncHandler(async(req, res) => {
@@ -81,9 +119,11 @@ app.post('/check', asyncHandler(async(req, res) => {
         throw error
     }
     if (x >= coords.x0 && x <= coords.x1 && y <= coords.y0 && y >= coords.y1) {
-        return res.json({response: true})
+        setTimeout(() => res.json({response: true}), 3000)
+        // return res.json({response: true})
     } else {
-        return res.json({response: false})
+        setTimeout(() => res.json({response: false}), 3000)
+        // return res.json({response: false})
     }
 }))
 
@@ -98,6 +138,12 @@ app.use((req, res, next) => {
 // eslint-disable-next-line no-unused-vars
 app.use((error, req, res, next) => {
     console.log(error);
+    if (Array.isArray(error)) {
+        return res.status(error.code || 500).json({
+            errors: error,
+            code: error.code || 500
+        });
+    }
     res.status(error.code || 500).json({
         message: error.message || 'Internal Server Error',
         code: error.code || 500

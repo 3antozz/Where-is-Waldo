@@ -25,7 +25,7 @@ model Coordinates {
 model Score {
     id    Int       @id @default(autoincrement())
     name  String    
-    time  Decimal   @db.Decimal(13, 8)     
+    time  BigInt   
 }
 
 model Session {
