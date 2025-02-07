@@ -1,6 +1,6 @@
 #root {
   height: 100dvh;
-  font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Balsamiq Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 img {
@@ -15,7 +15,7 @@ img {
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.7);
-  z-index: 999;
+  z-index: 9999999;
   border: none;
   display: flex;
   justify-content: center;
@@ -24,10 +24,79 @@ img {
 
 .modal, .scoreboard {
   background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
+  padding: 1.5rem 3rem;
+  border-radius: 30%;
+  border-top: 10px solid rgb(211, 2, 2);
+  border-bottom: 10px solid rgb(211, 2, 2);
   text-align: center;
 }
+
+#root .scoreboard {
+  border-radius: 20px;
+  width: 20rem;
+  overflow-y: auto;
+}
+
+.scoreboard h3 {
+  font-size: 1.2rem;
+}
+
+.over h2 {
+  padding: 1rem;
+}
+
+.over input {
+  border-radius: 5px;
+  padding: 0.2rem;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+
+.modal img {
+  width: 10rem;
+  height: 15rem;
+  object-fit: contain;
+}
+
+.modal button {
+  background-color: rgb(222, 70, 70);
+  font-size: 1.4rem;
+  color: white;
+  font-weight: bold;
+  transition: transform 200ms ease;
+  border-radius: 8px;
+  padding: 0.2rem 2rem;
+}
+
+.modal button:hover {
+  filter: brightness(1.5);
+  transform: scale(1.3);
+  cursor: pointer;
+}
+
+.instructions {
+  margin-bottom: 2rem;
+}
+
+.characters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.character {
+  transition: transform 200ms ease;
+  border-radius: 15px;
+  padding: 0.5rem;
+}
+
+.character:hover {
+  cursor: pointer !important;
+  transform: scale(1.3);
+}
+
+
 
 .img-container {
   position: relative;
@@ -41,14 +110,11 @@ img {
   border-radius: 50%;
 }
 
-.scoreboard {
-  width: 18rem;
-}
 
 .player-score {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid rgb(133, 133, 133);
+  border-bottom: 1px solid rgb(208, 207, 207);
   padding: 0.3rem;
   margin-bottom: 0.5rem;
 }
@@ -58,10 +124,10 @@ img {
 }
 
 .scoreboard .info-row {
-  margin-bottom: 1.5rem;
+  color: red;
 }
 
-.player-score h2:first-of-type {
+.player-score h3:first-of-type, .player-score h2:first-of-type {
   flex: 1;
   text-align: left;
 }

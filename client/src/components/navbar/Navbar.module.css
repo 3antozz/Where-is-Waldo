@@ -1,0 +1,47 @@
+.spotted {
+    text-decoration: line-through;
+}
+
+header {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+    box-shadow: 0px 0px 5px 3px grey;
+    z-index: 9999999;
+}
+
+.character {
+    position: relative;
+}
+
+.found {
+    position: absolute;
+    top: 0;
+    right: -3%;
+    width: 1.4rem;
+    fill: rgb(3, 205, 3);
+    border-radius: 50%;
+}
+
+.character h3 {
+    text-align: center;
+}
+
+header > div {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.character img {
+    width: 2.5rem;
+    height: 4.5rem;
+    object-fit: contain;
+}
+
+img[alt*="Wizard"] {
+    width: 3rem;
+    height: 4.7rem;
+}

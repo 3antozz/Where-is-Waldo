@@ -35,23 +35,28 @@ app.use(
       secret: 'idi nahui dolbayob',
       resave: false,
       saveUninitialized: true,
+      cookie: {
+        maxAge: null
+      },
       store: new PrismaSessionStore(
         prisma,
         {
           checkPeriod: 2 * 60 * 1000,
           dbRecordIdIsSessionId: true,
           dbRecordIdFunction: undefined,
+          ttl: 1000 * 60 * 60 * 3
         }
       )
     })
 )
 
-app.get('/start', asyncHandler(async(req, res) => {
-    req.session.startTime = Date.now();
-    setTimeout(() => res.json({
+app.get('/start', asyncHandler(async(req, res, next) => {
+    setTimeout(() => {
+        req.session.startTime = Date.now()
+        res.json({
         response: true,
         startTime: req.session.startTime
-    }), 3000)
+    })}, 3000)
     // return res.json({
     //     response: true,
     //     startTime: req.session.startTime
@@ -79,12 +84,10 @@ app.post('/score', nameValidation, async(req, res, next) => {
     const result = validationResult(req);
     if (!result.isEmpty()) {
         const errors = result.errors.map(err => err.msg);
-        errors.code = 400;
         return next(errors)
     }
     const name = req.body.name
     const elapsedTime = req.session.time;
-    console.log(elapsedTime);
     try {
         await db.addScore(name, elapsedTime)
         req.session.destroy(function(err) {
@@ -119,10 +122,10 @@ app.post('/check', asyncHandler(async(req, res) => {
         throw error
     }
     if (x >= coords.x0 && x <= coords.x1 && y <= coords.y0 && y >= coords.y1) {
-        setTimeout(() => res.json({response: true}), 3000)
+        setTimeout(() => res.json({response: true}), 1000)
         // return res.json({response: true})
     } else {
-        setTimeout(() => res.json({response: false}), 3000)
+        setTimeout(() => res.json({response: false}), 1000)
         // return res.json({response: false})
     }
 }))

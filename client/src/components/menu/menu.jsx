@@ -33,7 +33,9 @@ export default function Menu () {
                   setClickResponse('incorrect');
               }
               setTimeout(() => {
-                    setClickResponse(false)
+                    if(clickResponse !== 'loading') {
+                        setClickResponse(false)
+                    }
               }, 5000);
         } catch(err) {
             console.log(err);
