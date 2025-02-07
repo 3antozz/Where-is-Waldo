@@ -37,7 +37,8 @@ app.use(
       saveUninitialized: true,
       cookie: {
         maxAge: null,
-        secure: true
+        secure: true,
+        sameSite: 'none'
       },
       store: new PrismaSessionStore(
         prisma,

@@ -14,6 +14,7 @@ export default function Menu () {
                 headers: {
                   "Content-Type": "application/json",
                 },
+                credentials: 'include',
                 body: JSON.stringify({
                   character: e.target.value.toLowerCase(),
                   x: coords.X,
