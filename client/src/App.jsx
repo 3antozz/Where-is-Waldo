@@ -3,7 +3,7 @@ import { useState, memo, useMemo, useEffect } from 'react'
 import Menu from './components/menu/menu'
 import { Context } from './context';
 import Navbar from './components/navbar/Navbar';
-import { LoaderCircle, SearchCheck, MapPinX, Ban } from 'lucide-react';
+import { LoaderCircle, SearchCheck, MapPinX, Ban, Crosshair } from 'lucide-react';
 
 const SECOND = 1000;
 const MINUTE = SECOND * 60;
@@ -68,7 +68,7 @@ function App() {
       setError(false)
       setLoading(true);
       setIsRunning(false);
-      const request = await fetch('http://localhost:3000/finish', {
+      const request = await fetch(`${import.meta.env.VITE_API_URL}/finish`, {
         credentials: 'include'
       })
       if (!request.ok) {
@@ -88,7 +88,7 @@ function App() {
     try {
       setError(false)
       setLoading(true)
-      const request = await fetch('http://localhost:3000/start', {
+      const request = await fetch(`${import.meta.env.VITE_API_URL}/start`, {
         credentials: 'include'
       })
       const response = await request.json();
@@ -113,7 +113,7 @@ function App() {
       setError(false)
       setLoading(true);
       e.preventDefault();
-      const request = await fetch('http://localhost:3000/score', {
+      const request = await fetch(`${import.meta.env.VITE_API_URL}/score`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -130,7 +130,7 @@ function App() {
         throw error;
     }
     console.log(response);
-    const request2 = await fetch('http://localhost:3000/scoreboard')
+    const request2 = await fetch(`${import.meta.env.VITE_API_URL}/scoreboard`)
     const results = await request2.json();
     if (!request2.ok) {
       throw new Error('An Error has occured, try again later')
@@ -216,7 +216,7 @@ function App() {
             {nameError.length > 0 && nameError.map((error, index) => <li key={index}>{error}</li>) }
             <div>
                 <label htmlFor="name" hidden>Name</label>
-                <input type="text" value={name} placeholder='Name' onChange={(e) => setName(e.target.value)} />
+                <input type="text" value={name} placeholder='Name' onChange={(e) => setName(e.target.value)} minLength={3} maxLength={20} />
             </div>
             <button disabled={loading}>{loading ? <LoaderCircle className='loading-icon' size={35} color='white' /> : error ? 'Error'  : 'Submit'}</button>
           </form>
@@ -253,10 +253,9 @@ function App() {
       <Context.Provider value={{coords, menuPosition, characters, clickResponse, setOpen, setCharacters, setClickResponse, setCharacter}}>
         {open && <Menu />}
       </Context.Provider>
-      {/* <h3>X: {coords.X}%</h3>
-      <h3>Y: {coords.Y}%</h3>  */}
       <div className='img-container' onClick={handleClick}>
         {characters.map((character) => character.coords ? <svg key={character.name} className='found-icon' style={{left: `${character.coords.X}%`, top: `${character.coords.Y}%` }} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>{character.name}</title><path d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" /></svg> : null ) }
+        {open && <Crosshair className='crosshair' color='red' style={{left: `${coords.X-1.3}%`, top: `${coords.Y-1.3}%` }} />}
         <StaticImage />
       </div>
     </>

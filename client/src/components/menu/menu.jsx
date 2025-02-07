@@ -9,7 +9,7 @@ export default function Menu () {
         e.preventDefault();
         setOpen(false);
         try {
-            const request = await fetch('http://localhost:3000/check', {
+            const request = await fetch(`${import.meta.env.VITE_API_URL}/check`, {
                 method: 'POST',
                 headers: {
                   "Content-Type": "application/json",

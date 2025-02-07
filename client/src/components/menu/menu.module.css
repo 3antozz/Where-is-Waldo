@@ -7,7 +7,8 @@
     width: 120px;
     height: 183px;
     text-align: center;
-    z-index: 999;
+    z-index: 9999999;
+    user-select: none;
 }
 
 .menu legend {
@@ -41,5 +42,16 @@ input[type='radio'] {
     }
     100% {
         opacity: 1;
+    }
+}
+
+@media (max-width: 700px) {
+    .menu {
+        font-size: 1rem;
+        width: 80px;
+        height: 162px;
+        /* left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%); */
     }
 }

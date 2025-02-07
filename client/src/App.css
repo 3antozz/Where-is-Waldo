@@ -6,6 +6,8 @@
 img {
   width: 100%;
   cursor: crosshair;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .backdrop {
@@ -17,6 +19,7 @@ img {
   background: rgba(0, 0, 0, 0.7);
   z-index: 9999999;
   border: none;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,8 +27,9 @@ img {
 
 .modal, .scoreboard {
   background: white;
-  padding: 1.5rem 3rem;
+  padding: 1.5rem 2rem;
   border-radius: 30%;
+  width: fit-content;
   border-top: 10px solid rgb(211, 2, 2);
   border-bottom: 10px solid rgb(211, 2, 2);
   text-align: center;
@@ -54,8 +58,8 @@ img {
 
 
 .modal img {
-  width: 10rem;
-  height: 15rem;
+  width: 8rem;
+  height: 13rem;
   object-fit: contain;
 }
 
@@ -82,7 +86,7 @@ img {
 .characters {
   display: flex;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .character {
@@ -120,11 +124,21 @@ img {
 }
 
 .player-score div p {
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .scoreboard .info-row {
   color: red;
+}
+
+.crosshair {
+  position: absolute;
+  z-index: 999999;
+  background-color: rgba(0, 0, 0, 0.541);
+  padding: 0.2vw;
+  border-radius: 50%;
+  width: 3vw;
+  height: 3vw;
 }
 
 .player-score h3:first-of-type, .player-score h2:first-of-type {
@@ -179,6 +193,36 @@ img {
   }
   to {
     transform: rotate(1turn);
+  }
+}
+
+@media (max-width: 700px) {
+  .modal, .scoreboard {
+    width: fit-content;
+    padding: 4vw;
+    border-radius: 25px;
+    overflow-y: auto;
+  }
+
+  .backdrop {
+    padding: 5vw;
+  }
+
+  .instructions {
+    margin-bottom: 0.5rem;
+  }
+
+  .characters {
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0;
+    gap: 0.5rem;
+  }
+
+
+  .modal img {
+    width: 4rem;
+    height: 9rem;
   }
 }
 

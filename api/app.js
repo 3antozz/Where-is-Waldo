@@ -7,8 +7,9 @@ const expressSession = require('express-session');
 const { PrismaSessionStore } = require('@quixo3/prisma-session-store');
 const prisma = require('./db/client')
 const {body, validationResult} = require('express-validator')
+require('dotenv')
 
-const allowedOrigins = ['http://localhost:5173']
+const allowedOrigins = ['http://localhost:5173', process.env.FRONT_END_URL]
 const app = express();
 const corsOptions = {
     origin: (origin, callback) => {
@@ -23,7 +24,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-// app.options('*', cors((corsOptions)))
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -32,11 +32,12 @@ const nameValidation = body("name").trim().notEmpty().withMessage("Name must not
 
 app.use(
     expressSession({
-      secret: 'idi nahui dolbayob',
+      secret: process.env.SECRET_KEY,
       resave: false,
       saveUninitialized: true,
       cookie: {
-        maxAge: null
+        maxAge: null,
+        secure: true
       },
       store: new PrismaSessionStore(
         prisma,
@@ -50,17 +51,12 @@ app.use(
     })
 )
 
-app.get('/start', asyncHandler(async(req, res, next) => {
-    setTimeout(() => {
-        req.session.startTime = Date.now()
-        res.json({
+app.get('/start', asyncHandler(async(req, res) => {
+    req.session.startTime = Date.now()
+    return res.json({
         response: true,
         startTime: req.session.startTime
-    })}, 3000)
-    // return res.json({
-    //     response: true,
-    //     startTime: req.session.startTime
-    // })
+    })
 }))
 
 app.get('/finish', asyncHandler(async(req, res) => {
@@ -71,8 +67,7 @@ app.get('/finish', asyncHandler(async(req, res) => {
     }
     const elapsedTime = Date.now() - req.session.startTime;
     req.session.time = elapsedTime;
-    setTimeout(() => res.json({time: elapsedTime}), 3000)
-    // return res.json({time: elapsedTime/1000})
+    return res.json({time: elapsedTime})
 }))
 
 app.post('/score', nameValidation, async(req, res, next) => {
@@ -95,8 +90,7 @@ app.post('/score', nameValidation, async(req, res, next) => {
                 return next(err)
             }
         })
-        setTimeout(() => res.json({response: true}), 3000)
-        // return res.send({response: true})
+        return res.send({response: true})
     } catch(err) {
         return next(err)
     }
@@ -106,8 +100,7 @@ app.get('/scoreboard', asyncHandler(async(req, res, next) => {
     try {
         const results = await db.getTop10();
         const bigIntToString = results.map((score) => ({...score, time: score.time.toString()}))
-        setTimeout(() => res.json({scoreboard: bigIntToString}), 3000)
-        // return res.json({scoreboard: bigIntToString})
+        return res.json({scoreboard: bigIntToString})
     } catch(err) {
         return next(err);
     }
@@ -122,11 +115,9 @@ app.post('/check', asyncHandler(async(req, res) => {
         throw error
     }
     if (x >= coords.x0 && x <= coords.x1 && y <= coords.y0 && y >= coords.y1) {
-        setTimeout(() => res.json({response: true}), 1000)
-        // return res.json({response: true})
+        return res.json({response: true})
     } else {
-        setTimeout(() => res.json({response: false}), 1000)
-        // return res.json({response: false})
+        return res.json({response: false})
     }
 }))
 
