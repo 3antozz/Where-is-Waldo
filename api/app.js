@@ -23,6 +23,13 @@ const corsOptions = {
     optionsSuccessStatus: 200
 };
 
+app.use((req, res, next) => {
+    console.log(req.protocol);
+    console.log('x-forwarded-for:', req.headers['x-forwarded-for']);
+    console.log('x-forwarded-proto:', req.headers['x-forwarded-proto']);
+    next();
+  });
+
 app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json())
