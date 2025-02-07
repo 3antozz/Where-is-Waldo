@@ -21,7 +21,6 @@ export default function Menu () {
                 })
               })
               const response = await request.json();
-              console.log(response);
               setCharacter(e.target.value)
               if (!request.ok) {
                 throw new Error('An error has occured, please try again later!')
@@ -38,7 +37,6 @@ export default function Menu () {
                     }
               }, 5000);
         } catch(err) {
-            console.log(err);
             setClickResponse(err.message)
             setTimeout(() => {
                 if(clickResponse !== 'loading') {

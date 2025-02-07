@@ -77,9 +77,8 @@ function App() {
       const response = await request.json();
       setTimeElapsed(response.time);
       setLoading(false)
-      console.log(response);
     } catch(err) {
-        console.log(err)
+        (err)
         setLoading(false);
         setError(true)
     }
@@ -99,11 +98,9 @@ function App() {
       setIsRunning(true);
       setLoading(false);
       setStartTime(response.startTime)
-      console.log(response);
     } catch(err) {
       setLoading(false);
       setError(true)
-      console.log(err)
     }
   }
 
@@ -129,7 +126,7 @@ function App() {
         error.messages = response.errors || [error.message];
         throw error;
     }
-    console.log(response);
+    (response);
     const request2 = await fetch(`${import.meta.env.VITE_API_URL}/scoreboard`)
     const results = await request2.json();
     if (!request2.ok) {
@@ -139,13 +136,11 @@ function App() {
     setScoreBoard(true);
     setGameOver(false);
     setTop10(results.scoreboard)
-    console.log(results);
     } catch(err) {
       setNameError(err.messages || [err.message])
       setLoading(false);
       setError(true)
       setTimeout(() => setError(false), 2000)
-      console.log(err)
     }
   }
 
