@@ -8,7 +8,7 @@ Where is Waldo is a Photo Tagging game where your goal is to find all the hidden
 
 ## Main Interface
 
-![App Interface](./client/public/showcase/interface.png)
+![App Interface](./client/public/showcase/interface2.png)
 
 ## Leaderboard
 
