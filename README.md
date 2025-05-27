@@ -1,6 +1,6 @@
 # Where is Waldo ? (A Photo Tagging App)
 
-Where is Waldo is a Photo Tagging game where your goal is to find all the hidden characters. After finding all of them, you can submit your score on the leaderboard, sorted by fastest times.
+Where is Waldo is a fullstack Photo Tagging game where your goal is to find all the hidden characters as fast as possible. After finding all of them, you can submit your score on the leaderboard, sorted by fastest times.
 
 ## Welcome Interface
 
@@ -104,6 +104,7 @@ npm run dev
 
 ### Frontend
 
+- [React-router](https://www.npmjs.com/package/react-router-dom) – Client side routing.
 - [Lucide React](https://lucide.dev/guide/packages/lucide-react) – Import Icons.
 
 ### Backend
