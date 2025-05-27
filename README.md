@@ -1,6 +1,3 @@
-This is my second full stack project from The Odin Project Course!
-Backend built using ExpressJS
-FrontEnd built using React
 # Where is Waldo ? (A Photo Tagging App)
 
 Where is Waldo is a Photo Tagging game where your goal is to find all the hidden characters. After finding all of them, you can submit your score on the leaderboard, sorted by fastest times.
