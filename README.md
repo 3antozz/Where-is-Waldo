@@ -20,8 +20,7 @@ Where is Waldo is a Photo Tagging game where your goal is to find all the hidden
 ## Features
 
 - Server side character location checking.
-- Appropriate response to user after checking.
-- Stopwatch timer for tracking.
+- Server side stopwatch timer to prevent cheating.
 - Top-10 leaderboard sorted by fastest times.
 
 ## Why build this project ?
