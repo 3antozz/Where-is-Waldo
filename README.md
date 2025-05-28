@@ -14,6 +14,11 @@ Where is Waldo is a fullstack Photo Tagging game where your goal is to find all 
 
 ![Leaderboard](./client/public/showcase/scoreboard.png)
 
+# [Live Preview](https://where-is-waldo-sepia.vercel.app/)
+
+> [!NOTE]
+> App is hosted with free tier services, first load might take some time.
+
 ## Why build this project ?
 
 This was one of the first FullStack projects I created, it's purpose was to tie everything I learned from The Odin Project's course together in a fun project.
