@@ -14,15 +14,15 @@ Where is Waldo is a fullstack Photo Tagging game where your goal is to find all 
 
 ![Leaderboard](./client/public/showcase/scoreboard.png)
 
+## Why build this project ?
+
+This was one of the first FullStack projects I created, it's purpose was to tie everything I learned from The Odin Project's course together in a fun project.
+
 ## Features
 
 - Server side character location checking.
 - Server side stopwatch timer to prevent cheating.
 - Top-10 leaderboard sorted by fastest times.
-
-## Why build this project ?
-
-This was one of the first FullStack projects I created, it's purpose was to tie everything I learned together in a fun project.
 
 ## Technologies Used
 
@@ -110,6 +110,7 @@ npm run dev
 ### Backend
 
 - [express-session](https://www.npmjs.com/package/express-session) – Simple session middleware for Authenticating.
+- [prisma/client](https://www.npmjs.com/package/@prisma/client) – ORM - Auto-generated and type-safe query builder for Node.js.
 - [passport-github2](https://www.npmjs.com/package/passport-github2) – This module lets you authenticate using GitHub OAuth 2.0 in your Node.js applications. 
 - [prisma-session-store](https://www.npmjs.com/package/@quixo3/prisma-session-store) – An express session store implementation for the Prisma ORM.
 - [express-validator](https://www.npmjs.com/package/express-validator) – User input validation middleware.
