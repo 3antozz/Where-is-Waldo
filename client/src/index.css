@@ -1,3 +1,19 @@
+@font-face {
+    font-family: 'balsamiq_sansbold';
+    src: url('/balsamiqsans-bold-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'balsamiq_sansregular';
+    src: url('/balsamiqsans-regular-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 /*
   Josh's Custom CSS Reset
   https://www.joshwcomeau.com/css/custom-css-reset/

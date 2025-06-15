@@ -10,7 +10,7 @@ const MINUTE = SECOND * 60;
 const HOUR = MINUTE * 60;
 
 const StaticImage = memo(function Image () {
-    return <img src="/images/not-rly-square.png" alt="" />
+    return <img width={1422} height={1260} src="/images/not-rly-square.webp" alt="Find Waldo Scene" />
 })
 
 function App() {
