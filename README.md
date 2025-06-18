@@ -44,7 +44,6 @@ This was one of the first FullStack projects I created, it's purpose was to tie 
 - Nodejs
 - PostgreSQL
 - Prisma ORM
-- Socket.IO
 - OnRender
 - Neon
 
